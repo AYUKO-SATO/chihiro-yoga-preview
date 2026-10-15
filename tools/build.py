@@ -7,7 +7,7 @@ Design source: Figma file dDopAVcEA54rMN5ch7XFbN (ちひろヨガ_Mobile375 + le
 import html, os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-V = "20261015b"  # bump when images change (cache busting)
+V = "20261016"  # bump when images change (cache busting)
 EMAIL = "paloma.yoga.studio@gmail.com"
 LINE = "https://lin.ee/5bhqEXA"
 RESERVE = "https://airrsv.net/chihiroyoga/calendar"
@@ -242,6 +242,26 @@ def card_acc(label, body, small=False):
     return f'<div class="acc card-acc{" small" if small else ""}"><button class="acc-head" type="button" aria-expanded="false"><span class="ca-label">{e(label)}</span><span class="chev">{IC_CHEV}</span></button><div class="acc-body"><div class="acc-in">{paras(body)}</div></div></div>'
 
 
+
+VOICES = [
+    ("Aさん", "良い先生に巡り会えたことに、感謝！", "毎週お世話になってます。日頃から身体を動かす機会がないのでこちらでお世話になっております。肩が痛いのと坐骨神経痛が酷く毎日がとても辛かったです。週に一度レッスンに出ると痛みが和らぎます。その日の夜は熟睡できます。最近は、体力がついてきたのを実感しております。良い先生に巡り会えてとても感謝しております。"),
+    ("Bさん", "自律神経ケアを体験して", "気圧の影響で体調が良くなかったので、初回、自律神経ケアを体験しました。呼吸法を教えてもらいました。セルフケアでもできるようですが、自分では難しいので足を運んでケアしてもらう方が良い感じになりました。慣れるまでケアを受けたいと思います。"),
+    ("Cさん", "仕事終わりにリラックスできる場所", "仕事終わりにリラックスできる場所を探していて、このヨガ教室に出会いました。アットホームな雰囲気で、初心者の私でもすぐに馴染めました。丁寧な指導と優しい声かけが心地よく、心も体もリセットされる感覚。夜のクラスも落ち着いていておすすめです！"),
+    ("Dさん", "毎回、心が落ち着きます", "仕事帰りにこのスタジオを見つけてから、私の日常は大きく変わりました。丁寧な指導のおかげで呼吸が深まり、背中のこわばりが和らぎ、毎回心が落ち着きます。忙しい日でも、温かい雰囲気が継続する意欲を与えてくれます。動きは安全に感じられ、バランスが向上し、回復も早くなりました。ここで共有される思いやり、忍耐、励ましに心から感謝しています。長期的な健康目標を支えてくれる場所です。"),
+    ("Eさん", "受け入れてもらえてありがたい場所", "身体が硬すぎてこれからの健康を考えた時、いつも通り道にあるこちらのスタジオでヨガをはじめました。とても調子が良いです。寒さで肩が上がらなくなるのですが違和感なく腕の上げ下ろしできてます。受け入れてもらえてとてもありがたい場所です。"),
+    ("Fさん", "キャンドルに癒されています", "仕事の帰りに参加してます。キャンドルに癒されとっても気持ち良いです。1日の疲れを癒すことができてありがたい場所です。"),
+    ("Gさん", "腰の痛みが和らぎました", "腰痛が酷く日常生活がままならない位になってました。\nこちらで初めて腰痛ケアを受けてからヨガをしました。2.3回同じ流れで通いました。\n調子が良くなり腰の痛みが和らぎました。3回目終えると腰痛が気にならない位まで良くなりました。\nリラックスすることの大切さを教えてくれ、おかげさまでだいぶ良くなり、腰痛に悩む友人に勧めました。"),
+    ("Hさん", "初めてのヨガでも緊張なく参加できました", "少人数制なので初めてのヨガでも緊張なく参加することが出来ました。\nまた、ポーズも丁寧に教えていただき分かりやすかったです！\n落ち着いた空間の中で幸せな時間を過ごさせていただきました。\nまた伺わせていただきます☆"),
+]
+
+
+def voice():
+    slides = ""
+    for i, (n, t, b) in enumerate(VOICES):
+        slides += f'<article class="voice-slide"><div class="voice"><div class="v-top"><img class="v-av" src="img/voice_{"abcdefgh"[i]}.jpg?v={V}" alt="" width="56" height="56" loading="lazy"><b>{e(n)}</b></div><h3>{e(t)}</h3>{paras(b)}</div></article>'
+    dots = "".join(f'<button type="button" class="vdot{" is-active" if i == 0 else ""}" aria-label="{i+1}件目の声" data-go="{i}"></button>' for i in range(len(VOICES)))
+    return f'<section class="sec sec-white" id="voice">{heading("VOICE", "お客様の声")}<div class="voice-slider"><div class="voice-track">{slides}</div></div><div class="vdots">{dots}</div></section>'
+
 def index():
     return head("ちひろヨガスタジオ｜町田・相模原のヨガ教室（テスト版）", "「私にもできるかも」が芽生える時間を。町田・相模原のヨガ教室ちひろヨガスタジオ。") + header() + f'''<main>
 {hero()}
@@ -286,8 +306,7 @@ def index():
 <div class="bio">{paras(BIO)}</div>
 {card_acc("MESSAGE", MESSAGE)}{card_acc("資格情報", QUALS, True)}</section>
 
-<section class="sec sec-white" id="voice">{heading("VOICE", "お客様の声")}
-<article class="voice"><div class="v-top"><span class="v-av"></span><b>Aさん</b></div><h3>良い先生に巡り会えたことに、感謝！</h3><p>毎週お世話になってます。日頃から身体を動かす機会がないのでこちらでお世話になっております。肩が痛いのと坐骨神経痛が酷く毎日がとても辛かったです。週に一度レッスンに出ると痛みが和らぎます。その日の夜は熟睡できます。最近は、体力がついてきたのを実感しております。良い先生に巡り会えてとても感謝しております。</p></article></section>
+{voice()}
 
 <section class="sec sec-ivory" id="blog">{heading("BLOG", "ブログ")}{cards(BLOG)}<a class="tla" href="#blog"><span>ブログ一覧はこちら</span><em>＞</em></a></section>
 

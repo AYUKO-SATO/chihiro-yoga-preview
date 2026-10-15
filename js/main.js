@@ -71,6 +71,22 @@
     c.querySelector('.car-next').addEventListener('click', function () { row.scrollBy({ left: step(), behavior: 'smooth' }); });
   });
 
+  /* voice slider: swipe + pagination dots */
+  var vt = document.querySelector('.voice-track');
+  if (vt) {
+    var vdots = [].slice.call(document.querySelectorAll('.vdot'));
+    var mark = function () {
+      var i = Math.round(vt.scrollLeft / (vt.firstElementChild.offsetWidth + 12));
+      vdots.forEach(function (d, k) { d.classList.toggle('is-active', k === i); });
+    };
+    vt.addEventListener('scroll', function () { window.requestAnimationFrame(mark); }, { passive: true });
+    vdots.forEach(function (d) {
+      d.addEventListener('click', function () {
+        vt.scrollTo({ left: (+d.dataset.go) * (vt.firstElementChild.offsetWidth + 12), behavior: 'smooth' });
+      });
+    });
+  }
+
   /* concept video: swap the thumbnail for the YouTube player on click */
   var video = document.querySelector('.video');
   if (video) {
